@@ -26,9 +26,8 @@ int main() {
 
     srand(time(NULL));
 
-    int n, i, rank, previousRank, userGuess;
+    int rounds, i, rank, previousRank, userGuess;
     
-    bool theGame = true;
 
     int score;
     
@@ -36,20 +35,21 @@ int main() {
         cout << "Welcome to High low" << endl << endl;  
         cout << "How many rounds do you want to play? (0 to exit): ";
 
-        cin >> n;
+        cin >> rounds;
         
         score = 0;
         
-        if (n == 0) {
+        if (rounds == 0) {
             break;
         }
 
         previousRank = draw_a_card();
 
-        for ( i = 0; i <= n; i++) {
+        for ( i = 0; i <= rounds; i++) {
 
-            while ( theGame ) {
-                cout << "Higher (1) or Lower (2)?: " << endl;
+            while ( true ) {
+                userGuess = 0;
+                cout << "Higher (1) or Lower (2)?: ";
                 cin >> userGuess;
 
                 if (userGuess == 1 ) {
@@ -60,7 +60,7 @@ int main() {
                             score--;
                         } 
                         previousRank = rank;
-                        theGame = false;
+                        break;
                 }
                  else if ( userGuess == 2 ) {
                         rank = draw_a_card();
@@ -70,12 +70,13 @@ int main() {
                             score++;
                         } 
                         previousRank = rank;
-                        theGame = false;
+                        break;
                  } else {      
                         cout << "Please enter enter 1 or 2" << endl;
-                        theGame = true;
                   }
          }
+            cout << "score = " << score << endl ;
+            cout << "iteration" << i << endl;
         }     
     
     
