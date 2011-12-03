@@ -14,6 +14,7 @@ using namespace std;
 int rand_0toN1(int n);
 int draw_a_card();
 int select_next_available(int n);
+void play_HigherLower();
 
 bool card_drawn[52];
 int cards_remaining = 52;
@@ -23,21 +24,27 @@ string ranks[13] = {"ace", "two", "three", "four", "five", "six", "seven", "eigh
 
 
 int main() {
+    play_HigherLower();
+}
 
+void play_HigherLower() {
     srand(time(NULL));
 
     int rounds, i, rank, previousRank, userGuess;
+    int rightGuess =0, wrongGuess = 0, tied = 0;
+    double score;
     
-
-    int score;
+    //set all the variables so no cards have been drawn
+    for (int i = 0; i < 52; i++ ){
+        card_drawn[i] = false;
+    }
     
     while (true ) {
-        cout << "Welcome to High low" << endl << endl;  
-        cout << "How many rounds do you want to play? (0 to exit): ";
-
+        cout << endl << "Welcome to Higher or lower" << endl;
+        cout << "you will be given a card and you have to guess if ";
+        cout << "the next one is going to be higher or lower" << endl;
+        cout << "How many cards do you want to draw? (0 to exit): ";
         cin >> rounds;
-        
-        score = 0;
         
         if (rounds == 0) {
             break;
@@ -55,40 +62,49 @@ int main() {
                 if (userGuess == 1 ) {
                         rank = draw_a_card();
                         if ( previousRank > rank ) {
-                            score--;
+                            wrongGuess++;
                         } else if ( previousRank < rank ) {
-                            score++;
-                        } 
+                            rightGuess++;
+                        } else {
+                            tied++;
+                        }
                         previousRank = rank;
                         break;
                 }
                  else if ( userGuess == 2 ) {
                         rank = draw_a_card();
                         if ( previousRank > rank ) {
-                            score++;
+                            rightGuess++;
                         } else if ( previousRank < rank ) {
-                            score--;
-                        } 
+                            wrongGuess++;
+                        } else {
+                            tied++;
+                        }
                         previousRank = rank;
                         break;
                  } else {      
                         cout << "Please enter enter 1 or 2" << endl;
                   }
-         }
-            cout << "score = " << score << endl ;
-            cout << "iteration" << i << endl;
+             }
         }     
+        
+        score = (rightGuess/(rightGuess + tied + wrongGuess))*100;
     
-    
-        if ( score > 0 ) {
-            cout << "You Win with a score of " << score << "!" << endl;
-        } else if ( score < 0 ) {
-            cout << "It was a tie" << endl;
+        cout <<"Here are your Stats:"<< endl;
+            cout << "# of right answers = " << rightGuess << endl;
+            cout << "# of Wrong answers = " << wrongGuess << endl;
+            cout << "# of Ties = " << tied << endl;
+            cout << "Percentage of right answers: " << score << endl;
+            
+        if ( rightGuess > wrongGuess ) {
+            cout << "You Win! you could be psychic :)"  << endl;
+        } else if ( rightGuess < wrongGuess ) {
+            cout << "You Lose :( try guessing better next time" << endl;
         } else {
-            cout << "You lose, your score was " << score << endl;
+            cout << "You tied, almost but still no win for you";
         }
     }
-    return 0;
+    return;
 }
         
 
@@ -100,6 +116,17 @@ int main() {
  */
 int draw_a_card() {
     int r, s, n, card;
+    
+    if (cards_remaining == 0 ){
+        cout << "Reshuffling" << endl;
+        cards_remaining = 52;
+        
+        //set all the variables so no cards have been drawn
+        for (int i = 0; i < 52; i++ ){
+            card_drawn[i] = false;
+        }
+    }
+    
     
     n = rand_0toN1(cards_remaining--);
     card = select_next_available(n);
