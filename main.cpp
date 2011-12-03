@@ -45,7 +45,7 @@ int main() {
 
         previousRank = draw_a_card();
 
-        for ( i = 0; i <= rounds; i++) {
+        for ( i = 0; i < rounds; i++) {
 
             while ( true ) {
                 userGuess = 0;
@@ -55,9 +55,9 @@ int main() {
                 if (userGuess == 1 ) {
                         rank = draw_a_card();
                         if ( previousRank > rank ) {
-                            score++;
-                        } else if ( previousRank < rank ) {
                             score--;
+                        } else if ( previousRank < rank ) {
+                            score++;
                         } 
                         previousRank = rank;
                         break;
@@ -65,9 +65,9 @@ int main() {
                  else if ( userGuess == 2 ) {
                         rank = draw_a_card();
                         if ( previousRank > rank ) {
-                            score--;
-                        } else if ( previousRank < rank ) {
                             score++;
+                        } else if ( previousRank < rank ) {
+                            score--;
                         } 
                         previousRank = rank;
                         break;
