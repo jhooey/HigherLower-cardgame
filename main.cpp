@@ -30,28 +30,33 @@ int main() {
 void play_HigherLower() {
     srand(time(NULL));
 
-    int rounds, i, rank, previousRank, userGuess;
-    int rightGuess =0, wrongGuess = 0, tied = 0;
-    double score;
+    //Initialize all the variables for the Higher or Lower Game
+    int rounds, i, rank, previousRank, userGuess;//used for comparing card draws
+    int rightGuess =0, wrongGuess = 0, tied = 0;//used for recording a players score
+    double score = 0.0; //percentage of right answers a player gets
     
     //set all the variables so no cards have been drawn
     for (int i = 0; i < 52; i++ ){
         card_drawn[i] = false;
     }
     
+    //Main Game Loop
     while (true ) {
+        //Describing the rules to the player
         cout << endl << "Welcome to Higher or lower" << endl;
         cout << "you will be given a card and you have to guess if ";
         cout << "the next one is going to be higher or lower" << endl;
         cout << "How many cards do you want to draw? (0 to exit): ";
         cin >> rounds;
         
+        //Lets the player quit the game
         if (rounds == 0) {
             break;
         }
 
         previousRank = draw_a_card();
 
+        //Play the number of rounds the player wants
         for ( i = 0; i < rounds; i++) {
 
             while ( true ) {
@@ -59,43 +64,63 @@ void play_HigherLower() {
                 cout << "Higher (1) or Lower (2)?: ";
                 cin >> userGuess;
 
+                //if the player guesses higher
                 if (userGuess == 1 ) {
                         rank = draw_a_card();
+                        
+                        //player is wrong if the new card is lower
                         if ( previousRank > rank ) {
                             wrongGuess++;
+                            
+                        //player is right if the new card is higher
                         } else if ( previousRank < rank ) {
                             rightGuess++;
+                        //record the number of ties, for statistical reasons
                         } else {
                             tied++;
                         }
+                        //the new card becomes the old card
                         previousRank = rank;
                         break;
                 }
+                
+                //if the player guesses lower
                  else if ( userGuess == 2 ) {
                         rank = draw_a_card();
+                        
+                        //player is right if the new card is lower
                         if ( previousRank > rank ) {
                             rightGuess++;
+                        //player is wrong if the new card is higher
                         } else if ( previousRank < rank ) {
                             wrongGuess++;
+                            
+                        //record the number of ties, for statistical reasons
                         } else {
                             tied++;
                         }
+                        //the new card becomes the old card
                         previousRank = rank;
                         break;
+                        
+                 //Catch for when the player does not enter higher or lower
                  } else {      
                         cout << "Please enter enter 1 or 2" << endl;
                   }
              }
         }     
         
-        score = (rightGuess/(rightGuess + tied + wrongGuess))*100;
-    
+        //Calculate the players score
+        score = rightGuess + tied + wrongGuess;
+        score = rightGuess / score;
+        score = score * 100.0;
         cout <<"Here are your Stats:"<< endl;
             cout << "# of right answers = " << rightGuess << endl;
             cout << "# of Wrong answers = " << wrongGuess << endl;
             cout << "# of Ties = " << tied << endl;
-            cout << "Percentage of right answers: " << score << endl;
-            
+            cout << "Percentage of right answers: " << score << "%" << endl;
+        
+        //Reward players success, and mock his loses
         if ( rightGuess > wrongGuess ) {
             cout << "You Win! you could be psychic :)"  << endl;
         } else if ( rightGuess < wrongGuess ) {
