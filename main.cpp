@@ -45,8 +45,8 @@ void play_HigherLower() {
         //Describing the rules to the player
         cout << endl << "Welcome to Higher or lower" << endl;
         cout << "you will be given a card and you have to guess if ";
-        cout << "the next one is going to be higher or lower" << endl;
-        cout << "How many cards do you want to draw? (0 to exit): ";
+        cout << "the next one is going to be " << endl << "higher or lower";
+        cout << endl << "How many cards do you want to draw? (0 to exit): ";
         cin >> rounds;
         
         //Lets the player quit the game
